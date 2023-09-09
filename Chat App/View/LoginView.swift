@@ -31,17 +31,29 @@ struct LoginView: View {
     
     var Buttons: some View {
         VStack {
-            CustomButton(text: "Masuk") {
-                print("Masuk")
+            NavigationLink(destination: ListUserView()) {
+                HStack {
+                    Spacer()
+                    Text("Masuk")
+                    Spacer()
+                }
+                .padding()
+                .background(.blue)
+                .foregroundColor(.white)
+                .cornerRadius(8)
             }
-            .buttonStyle(.borderedProminent)
             
-            CustomButton(text: "Daftar") {
-                print("Daftar")
+            NavigationLink(destination: SignupView()) {
+                HStack {
+                    Text("Belum Punya Akun ?")
+                        .foregroundColor(.black)
+                    Text("Daftar")
+                        .foregroundColor(.blue)
+                }
+                
             }
-            .buttonStyle(.bordered)
+            .padding(.top, 16)
         }
-        .frame(width: .infinity)
     }
 }
 

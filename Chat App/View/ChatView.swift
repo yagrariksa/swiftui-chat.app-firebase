@@ -15,13 +15,7 @@ struct ChatView: View {
     
     var body: some View {
         VStack {
-            HStack(alignment: .top) {
-                Text("Ahmad Dahlan")
-                    .font(.title)
-                Spacer()
-            }
-            .padding()
-            
+            Spacer()
             ScrollView {
                 ForEach(chats, id: \.self) { text in
                     ChatBubble(text: text,
@@ -44,6 +38,8 @@ struct ChatView: View {
             }
             .padding()
         }
+        .background(.white)
+        .navigationTitle("Ahmad Dahlan")
     }
 }
 

@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct SignupView: View {
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    
     @State private var name: String = ""
     @State private var username: String = ""
     @State private var password: String = ""
@@ -31,6 +33,7 @@ struct SignupView: View {
             Buttons
         }
         .padding()
+        .navigationBarBackButtonHidden()
     }
     
     var Fields: some View {
@@ -52,12 +55,19 @@ struct SignupView: View {
             }
             .buttonStyle(.borderedProminent)
             
-            CustomButton(text: "Masuk") {
+            Button {
                 print("Masuk")
+                presentationMode.wrappedValue.dismiss()
+            }label: {
+                HStack {
+                    Text("Sudah Punya Akun ? ")
+                        .foregroundColor(.black)
+                    Text("Masuk")
+                        .foregroundColor(.blue)
+                }
             }
-            .buttonStyle(.bordered)
+            .padding(.top, 16)
         }
-        .frame(width: .infinity)
     }
 }
 

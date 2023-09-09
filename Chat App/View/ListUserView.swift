@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ListUserView: View {
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    
     @State private var searchValue: String = ""
     
     var users = ["Soekarno", "Hatta", "Soeharto", "Jokowi"]
@@ -17,34 +19,47 @@ struct ListUserView: View {
             HStack {
                 CustomTextField(text: $searchValue, placeholder: Text("Cari Pengguna"))
                 
-                Button {
-                    print("Log Out")
-                } label: {
-                    VStack {
-                        Image(systemName: "power")
-                            .resizable()
-                            .frame(width: 25, height: 25)
-                            .foregroundColor(.red)
-                        Text("Keluar")
-                            .foregroundColor(.red)
-                            .font(.caption)
-                    }
-                }
-                .padding(.horizontal, 16)
+                ButtonLogout
             }
             .padding()
             
             ScrollView {
                 ForEach(users, id: \.self) { user in
-                    CustomButton(text: user, alignment: .leading) {
-                        print("do Something")
-                    } 
-                    .buttonStyle(.bordered)
+                    NavigationLink(destination: ChatView()) {
+                        HStack {
+                            Text(user)
+                                .foregroundColor(.black)
+                            Spacer()
+                        }
+                        .padding()
+                        .background(Color("textfield_bg"))
+                        .cornerRadius(8)
+                            
+                    }
                     
                 }
                 .padding()
             }
         }
+        .navigationBarBackButtonHidden()
+    }
+    
+    var ButtonLogout: some View {
+        Button {
+            print("Log Out")
+            self.presentationMode.wrappedValue.dismiss()
+        } label: {
+            VStack {
+                Image(systemName: "power")
+                    .resizable()
+                    .frame(width: 25, height: 25)
+                    .foregroundColor(.red)
+                Text("Keluar")
+                    .foregroundColor(.red)
+                    .font(.caption)
+            }
+        }
+        .padding(.horizontal, 16)
     }
 }
 
