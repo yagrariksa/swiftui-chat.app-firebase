@@ -25,18 +25,7 @@ struct ListUserView: View {
             
             ScrollView {
                 ForEach(users, id: \.self) { user in
-                    NavigationLink(destination: ChatView()) {
-                        HStack {
-                            Text(user)
-                                .foregroundColor(.black)
-                            Spacer()
-                        }
-                        .padding()
-                        .background(Color("textfield_bg"))
-                        .cornerRadius(8)
-                            
-                    }
-                    
+                    UserItem(user: User(id: "123", name: user, username: user))
                 }
                 .padding()
             }
@@ -66,5 +55,30 @@ struct ListUserView: View {
 struct ListUserView_Previews: PreviewProvider {
     static var previews: some View {
         ListUserView()
+    }
+}
+
+struct UserItem: View {
+    
+    var user: User
+    
+    var body: some View {
+        NavigationLink(destination: ChatView()) {
+            HStack {
+                VStack(alignment: .leading) {
+                    Text(user.name)
+                        .foregroundColor(.black)
+                    Text(user.username)
+                        .foregroundColor(.gray)
+                        .font(.subheadline)
+                }
+                Spacer()
+            }
+            .padding()
+            .background(Color("textfield_bg"))
+            .cornerRadius(8)
+                
+        }
+        .padding(.bottom, 8)
     }
 }

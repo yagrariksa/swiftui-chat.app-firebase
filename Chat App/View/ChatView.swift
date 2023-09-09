@@ -18,11 +18,10 @@ struct ChatView: View {
             Spacer()
             ScrollView {
                 ForEach(chats, id: \.self) { text in
-                    ChatBubble(text: text,
-                               me: Int.random(in: 0...10) < 7 ? true : false)
+                    ChatBubble(message: Message(id: "123", sender: Int.random(in: 0...10) < 7 ? "me" : "you", text: text, timestamps: Date()))
                     
                 }
-                .padding(.horizontal)
+                .padding()
             }
             .background(Color("textfield_bg"))
             
