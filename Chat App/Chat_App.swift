@@ -6,10 +6,15 @@
 //
 
 import SwiftUI
+import FirebaseCore
 
 @main
 struct Chat_App: App {
 
+    init() {
+        FirebaseApp.configure()
+    }
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
