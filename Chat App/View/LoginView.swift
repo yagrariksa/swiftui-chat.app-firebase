@@ -6,11 +6,16 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct LoginView: View {
     
-    @State private var username: String = ""
-    @State private var password: String = ""
+    @State private var username: String = "daffa.yagrariksa@gmail.com"
+    @State private var password: String = "123"
+    
+    @State private var succesLogin: Bool = false
+    @State private var showAlert: Bool = false
+    
     var body: some View {
         VStack {
             Spacer()
@@ -27,21 +32,20 @@ struct LoginView: View {
             Buttons
         }
         .padding()
+        .alert(isPresented: $showAlert) {
+            Alert(
+                title: Text("Kesalahan Saat Masuk"),
+                message: Text("Kata Sandi Salah atau Akun Belum Dibuat"),
+                dismissButton: .default(Text("OK")) {
+                    showAlert.toggle()
+                })
+        }
     }
     
     var Buttons: some View {
         VStack {
-            NavigationLink(destination: ListUserView()) {
-                HStack {
-                    Spacer()
-                    Text("Masuk")
-                    Spacer()
-                }
-                .padding()
-                .background(.blue)
-                .foregroundColor(.white)
-                .cornerRadius(8)
-            }
+            CustomButton(text: "Masuk", action: login)
+                .buttonStyle(.borderedProminent)
             
             NavigationLink(destination: SignupView()) {
                 HStack {
@@ -53,7 +57,25 @@ struct LoginView: View {
                 
             }
             .padding(.top, 16)
+            
+            NavigationLink("", destination: ListUserView(), isActive: $succesLogin)
         }
+    }
+    
+    func login() {
+        guard username != "" || password != "" else {
+            return
+        }
+        Auth.auth().signIn(withEmail: username, password: password) { (result,error) in
+            if error != nil {
+                print("🔴Error FirebaseAuth : \(String(describing: error))")
+                showAlert.toggle()
+            }else {
+                print("🟢RESULT:")
+                succesLogin.toggle()
+            }
+        }
+        
     }
 }
 
