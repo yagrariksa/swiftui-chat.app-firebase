@@ -6,14 +6,19 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct SignupView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
-    @State private var name: String = ""
-    @State private var username: String = ""
-    @State private var password: String = ""
-    @State private var passwordConfirm: String = ""
+//    @State private var name: String = ""
+    @State private var email: String = "afina.indonesia@gmail.com"
+    @State private var password: String = "afina"
+    @State private var passwordConfirm: String = "afina123"
+    
+    @State private var showAlert: Bool = false
+    @State private var alertTitle: String = ""
+    @State private var alertMsg: String = ""
     
     var body: some View {
         VStack {
@@ -34,13 +39,16 @@ struct SignupView: View {
         }
         .padding()
         .navigationBarBackButtonHidden()
+        .alert(isPresented: $showAlert) {
+            Alert(title: Text(alertTitle), message: Text(alertMsg))
+        }
     }
     
     var Fields: some View {
         VStack {
-            CustomTextField(text: $name, placeholder: Text("Nama"))
+//            CustomTextField(text: $name, placeholder: Text("Nama"))
             
-            CustomTextField(text: $username, placeholder: Text("Username"))
+            CustomTextField(text: $email, placeholder: Text("Email"))
             
             CustomTextField(text: $password, placeholder: Text("Kata Sandi"), secureField: true)
             
@@ -51,7 +59,9 @@ struct SignupView: View {
     var Buttons: some View {
         VStack {
             CustomButton(text: "Daftar") {
-                print("Daftar")
+                print("🔵Daftar")
+                signup()
+                
             }
             .buttonStyle(.borderedProminent)
             
@@ -68,6 +78,36 @@ struct SignupView: View {
             }
             .padding(.top, 16)
         }
+    }
+    
+    func signup() {
+        guard email != ""
+                && password != ""
+                && passwordConfirm != ""
+                && password == passwordConfirm
+        else {
+            print("🔴Input Validation Error")
+            return
+        }
+        
+        Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
+            if error != nil {
+                print("🔴Error Firabse-Auth: \(String(describing: error))")
+                
+                alertTitle = "Gagal Mendaftar"
+                alertMsg = "Akun Telah Dibuat"
+                
+            }else{
+                print("🟢Success: \(String(describing: result))")
+                
+                alertTitle = "Berhasil Mendaftar"
+                alertMsg = "Mohon Masuk Menggunakan Data Akun yang Barusaja Anda Buat"
+                
+                presentationMode.wrappedValue.dismiss()
+            }
+            showAlert.toggle()
+        }
+                
     }
 }
 
