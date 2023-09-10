@@ -35,6 +35,7 @@ struct ChatBubble: View {
             Text("\(message.timestamp.formatted(.dateTime.hour().minute()))")
                 .padding(.horizontal)
                 .foregroundColor(.gray)
+                .font(.caption)
         }
         .padding(.top, 8)
         

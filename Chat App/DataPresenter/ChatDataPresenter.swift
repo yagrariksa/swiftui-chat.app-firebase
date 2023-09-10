@@ -14,12 +14,13 @@ class ChatDataPresenter: ObservableObject {
     let db = Firestore.firestore()
     
     @Published var chats: [Message] = []
+    @Published var last_bubble_id: String = ""
     
     func fetchChat(_ roomId: String) {
         print("ChatDP🔵START fetchChat(\(roomId))")
         let messagesCollection = db.collection("rooms/\(roomId)/messages")
         
-        messagesCollection.getDocuments { querySnapshot, error in
+        messagesCollection.addSnapshotListener { querySnapshot, error in
             if error != nil {
                 print("ChatDP🔴ERROR: \(String(describing: error))")
             }
@@ -42,7 +43,25 @@ class ChatDataPresenter: ObservableObject {
                 }
             }
             
+            if !self.chats.isEmpty {
+                self.chats.sort { a, b in
+                    a.timestamp < b.timestamp
+                }
+                
+                self.last_bubble_id = self.chats.last!.id
+            }
+            
             print("ChatDP🟢Success Fetch \(self.chats.count) Bubble Chat")
+        }
+    }
+    
+    func sendMessage(_ roomId: String, _ message: Message) {
+        let messagesCollection = db.collection("rooms/\(roomId)/messages")
+        
+        do {
+            try messagesCollection.addDocument(from: message)
+        }catch {
+            print("ChatDP🔴sendMessage: \(String(describing: error))")
         }
     }
 }

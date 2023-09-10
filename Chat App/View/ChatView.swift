@@ -10,6 +10,7 @@ import SwiftUI
 struct ChatView: View {
     var room_id: String
     
+    @EnvironmentObject var appData: AppData
     @StateObject private var chatDP = ChatDataPresenter()
     
     @State private var message: String = ""
@@ -18,23 +19,43 @@ struct ChatView: View {
         chatDP.fetchChat(room_id)
     }
     
+    func sendMessage() {
+        guard message != "" else { return }
+        chatDP.sendMessage(
+            room_id,
+            Message(
+                id: UUID().uuidString,
+                sender: appData.user.id,
+                text: message,
+                timestamp: Date()
+            ))
+    }
+    
     var body: some View {
         VStack {
             Spacer()
-            ScrollView {
-                ForEach(chatDP.chats, id: \.self) { message in
-                    ChatBubble(message: message)
+            ScrollViewReader { proxy in
+                ScrollView {
+                    ForEach(chatDP.chats, id: \.id) { message in
+                        ChatBubble(message: message)
+                    }
+                    .padding()
                 }
-                .padding()
+                .background(Color("textfield_bg"))
+                .onChange(of: chatDP.last_bubble_id) { newValue in
+                    guard newValue != "" else { return }
+                    withAnimation {
+                        proxy.scrollTo(newValue)
+                        message = ""
+                    }
+                    
+                }
             }
-            .background(Color("textfield_bg"))
             
             
             HStack {
                 CustomTextField(text: $message, placeholder: Text("Pesan"))
-                Button {
-                    print("Send Message")
-                } label: {
+                Button(action: sendMessage) {
                     Image(systemName: "paperplane")
                 }
                 .padding(.horizontal, 8)
