@@ -7,11 +7,16 @@
 
 import SwiftUI
 import FirebaseAuth
+import FirebaseCore
+import FirebaseFirestore
+import FirebaseFirestoreSwift
 
 struct LoginView: View {
     
-    @State private var username: String = "daffa.yagrariksa@gmail.com"
-    @State private var password: String = "123"
+    @EnvironmentObject var appData: AppData
+    
+    @State private var email: String = "daffa.yagrariksa@gmail.com"
+    @State private var password: String = "yagrariksa"
     
     @State private var succesLogin: Bool = false
     @State private var showAlert: Bool = false
@@ -24,7 +29,7 @@ struct LoginView: View {
             Text("Masuk")
                 .font(.title)
             Spacer()
-            CustomTextField(text: $username, placeholder: Text("Username"))
+            CustomTextField(text: $email, placeholder: Text("Username"))
             
             CustomTextField(text: $password, placeholder: Text("Kata Sandi"), secureField: true)
             Spacer()
@@ -39,6 +44,10 @@ struct LoginView: View {
                 dismissButton: .default(Text("OK")) {
                     showAlert.toggle()
                 })
+        }
+        .onChange(of: appData.user.id) { newValue in
+            guard newValue != "" else { return }
+            succesLogin.toggle()
         }
     }
     
@@ -63,16 +72,16 @@ struct LoginView: View {
     }
     
     func login() {
-        guard username != "" || password != "" else {
+        guard email != "" || password != "" else {
             return
         }
-        Auth.auth().signIn(withEmail: username, password: password) { (result,error) in
+        Auth.auth().signIn(withEmail: email, password: password) { (result,error) in
             if error != nil {
                 print("🔴Error FirebaseAuth : \(String(describing: error))")
                 showAlert.toggle()
             }else {
-                print("🟢RESULT:")
-                succesLogin.toggle()
+                print("🟢SUCCESS LOGIN:")
+                appData.getUserData(email)
             }
         }
         

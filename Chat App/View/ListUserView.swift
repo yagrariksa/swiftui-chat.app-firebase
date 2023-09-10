@@ -10,7 +10,18 @@ import SwiftUI
 struct ListUserView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
+    @EnvironmentObject var appData: AppData
+    @StateObject private var roomDP = RoomDataPresenter()
+    
     @State private var searchValue: String = ""
+    
+    func onAppear() -> Void {
+        guard appData.user.id != "" else {
+            print("🔴ERROR: User ID is not ready")
+            return
+        }
+        roomDP.fetchChat(appData.user.id)
+    }
     
     var users = ["Soekarno", "Hatta", "Soeharto", "Jokowi"]
     
@@ -24,13 +35,17 @@ struct ListUserView: View {
             .padding()
             
             ScrollView {
-                ForEach(users, id: \.self) { user in
-                    UserItem(user: User(id: "123", name: user, username: user))
+                ForEach(roomDP.rooms, id: \.self) { room in
+                    UserItem(room_id: room.id,user: room.interlocutor)
                 }
                 .padding()
             }
         }
         .navigationBarBackButtonHidden()
+        .onAppear(perform: onAppear)
+        .onChange(of: appData.user.id) { _ in
+            onAppear()
+        }
     }
     
     var ButtonLogout: some View {
@@ -60,15 +75,16 @@ struct ListUserView_Previews: PreviewProvider {
 
 struct UserItem: View {
     
+    var room_id: String
     var user: User
     
     var body: some View {
-        NavigationLink(destination: ChatView()) {
+        NavigationLink(destination: ChatView(room_id: room_id).navigationTitle(user.name)) {
             HStack {
                 VStack(alignment: .leading) {
                     Text(user.name)
                         .foregroundColor(.black)
-                    Text(user.username)
+                    Text(user.email)
                         .foregroundColor(.gray)
                         .font(.subheadline)
                 }
@@ -77,7 +93,7 @@ struct UserItem: View {
             .padding()
             .background(Color("textfield_bg"))
             .cornerRadius(8)
-                
+            
         }
         .padding(.bottom, 8)
     }

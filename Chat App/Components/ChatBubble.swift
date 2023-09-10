@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct ChatBubble: View {
+    @EnvironmentObject var appData: AppData
+    
     var message: Message
 
     func isSender() -> Bool {
-        return message.sender == "me"
+        return message.sender == appData.user.id
     }
     
     var body: some View {
@@ -30,7 +32,7 @@ struct ChatBubble: View {
                     Spacer(minLength: 48)
                 }
             }
-            Text("\(message.timestamps.formatted(.dateTime.hour().minute()))")
+            Text("\(message.timestamp.formatted(.dateTime.hour().minute()))")
                 .padding(.horizontal)
                 .foregroundColor(.gray)
         }

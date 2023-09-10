@@ -17,6 +17,10 @@
 		408963862AAC737700624116 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 408963852AAC737700624116 /* FirebaseAuth */; };
 		408963882AAC737700624116 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 408963872AAC737700624116 /* FirebaseFirestore */; };
 		4089638A2AAC737700624116 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 408963892AAC737700624116 /* FirebaseFirestoreSwift */; };
+		4089638D2AAD98DD00624116 /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4089638C2AAD98DD00624116 /* AppData.swift */; };
+		408963912AADA01000624116 /* RoomDataPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408963902AADA01000624116 /* RoomDataPresenter.swift */; };
+		408963932AADA11900624116 /* RoomDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408963922AADA11900624116 /* RoomDTO.swift */; };
+		408963952AADAB4A00624116 /* ChatDataPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408963942AADAB4A00624116 /* ChatDataPresenter.swift */; };
 		40FD387E2AAC4DEF00694247 /* Chat_App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40FD387D2AAC4DEF00694247 /* Chat_App.swift */; };
 		40FD38802AAC4DEF00694247 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40FD387F2AAC4DEF00694247 /* ContentView.swift */; };
 		40FD38822AAC4DF100694247 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 40FD38812AAC4DF100694247 /* Assets.xcassets */; };
@@ -55,6 +59,10 @@
 		4089637E2AAC5FEB00624116 /* ChatBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBubble.swift; sourceTree = "<group>"; };
 		408963802AAC6DF100624116 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		408963822AAC71E500624116 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		4089638C2AAD98DD00624116 /* AppData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
+		408963902AADA01000624116 /* RoomDataPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomDataPresenter.swift; sourceTree = "<group>"; };
+		408963922AADA11900624116 /* RoomDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomDTO.swift; sourceTree = "<group>"; };
+		408963942AADAB4A00624116 /* ChatDataPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDataPresenter.swift; sourceTree = "<group>"; };
 		40FD387A2AAC4DEF00694247 /* Chat App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Chat App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		40FD387D2AAC4DEF00694247 /* Chat_App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat_App.swift; sourceTree = "<group>"; };
 		40FD387F2AAC4DEF00694247 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -104,8 +112,19 @@
 			children = (
 				4089637A2AAC5B3700624116 /* User.swift */,
 				408963802AAC6DF100624116 /* Message.swift */,
+				408963922AADA11900624116 /* RoomDTO.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		4089638B2AAD98CE00624116 /* DataPresenter */ = {
+			isa = PBXGroup;
+			children = (
+				4089638C2AAD98DD00624116 /* AppData.swift */,
+				408963902AADA01000624116 /* RoomDataPresenter.swift */,
+				408963942AADAB4A00624116 /* ChatDataPresenter.swift */,
+			);
+			path = DataPresenter;
 			sourceTree = "<group>";
 		};
 		40FD38712AAC4DEF00694247 = {
@@ -131,6 +150,7 @@
 		40FD387C2AAC4DEF00694247 /* Chat App */ = {
 			isa = PBXGroup;
 			children = (
+				4089638B2AAD98CE00624116 /* DataPresenter */,
 				408963822AAC71E500624116 /* GoogleService-Info.plist */,
 				408963792AAC5B2A00624116 /* Models */,
 				40FD38B12AAC506700694247 /* Components */,
@@ -329,8 +349,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4089638D2AAD98DD00624116 /* AppData.swift in Sources */,
 				40FD388A2AAC4DF100694247 /* Chat_App.xcdatamodeld in Sources */,
 				40FD38802AAC4DEF00694247 /* ContentView.swift in Sources */,
+				408963912AADA01000624116 /* RoomDataPresenter.swift in Sources */,
+				408963952AADAB4A00624116 /* ChatDataPresenter.swift in Sources */,
 				4089637D2AAC5F6000624116 /* ChatView.swift in Sources */,
 				40FD38B32AAC507B00694247 /* CustomTextField.swift in Sources */,
 				4089637F2AAC5FEB00624116 /* ChatBubble.swift in Sources */,
@@ -341,6 +364,7 @@
 				408963812AAC6DF100624116 /* Message.swift in Sources */,
 				40FD387E2AAC4DEF00694247 /* Chat_App.swift in Sources */,
 				40FD38B02AAC4F0D00694247 /* SignupView.swift in Sources */,
+				408963932AADA11900624116 /* RoomDTO.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

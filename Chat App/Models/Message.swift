@@ -7,9 +7,14 @@
 
 import Foundation
 
-struct Message: Identifiable, Codable {
+struct Message: Identifiable, Codable, Hashable {
+    
     var id: String
     var sender: String
     var text: String
-    var timestamps: Date
+    var timestamp: Date
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
 }

@@ -8,18 +8,22 @@
 import SwiftUI
 
 struct ChatView: View {
+    var room_id: String
     
-    var chats = ["Hello Daffa How Are You Doing", "Haello I am goo d what about you, i heard you have som holidey", "How Are You"]
+    @StateObject private var chatDP = ChatDataPresenter()
     
     @State private var message: String = ""
+    
+    func onAppear() {
+        chatDP.fetchChat(room_id)
+    }
     
     var body: some View {
         VStack {
             Spacer()
             ScrollView {
-                ForEach(chats, id: \.self) { text in
-                    ChatBubble(message: Message(id: "123", sender: Int.random(in: 0...10) < 7 ? "me" : "you", text: text, timestamps: Date()))
-                    
+                ForEach(chatDP.chats, id: \.self) { message in
+                    ChatBubble(message: message)
                 }
                 .padding()
             }
@@ -38,12 +42,12 @@ struct ChatView: View {
             .padding()
         }
         .background(.white)
-        .navigationTitle("Ahmad Dahlan")
+        .onAppear(perform: onAppear)
     }
 }
 
 struct ChatView_Previews: PreviewProvider {
     static var previews: some View {
-        ChatView()
+        ChatView(room_id: "123")
     }
 }
