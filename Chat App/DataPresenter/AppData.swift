@@ -8,18 +8,26 @@
 import Foundation
 import FirebaseCore
 import FirebaseFirestore
+import FirebaseAuth
 
 class AppData: ObservableObject {
     let db = Firestore.firestore()
     
+    init() {
+        Auth.auth().addStateDidChangeListener { auth, user in
+            print("🔔auth: \(String(describing: auth))")
+            print("🔔user: \(String(describing: user))")
+        }
+    }
+    
     @Published var user: User = User(id: "", name: "", email: "")
     
-    func getUserData(_ email: String) -> Bool {
+    func getUserData(_ email: String) {
+        
+        
         let usersCollection = db.collection("users")
         
         let query = usersCollection.whereField("email", isEqualTo: email)
-        
-        var returnal = false
         
         query.getDocuments { querySnapshot, error in
             if error != nil {
@@ -38,12 +46,10 @@ class AppData: ObservableObject {
             do {
                 self.user = try document.data(as: User.self)
                 print("🟢Firestore Result : \(self.user)")
-                returnal = true
             }catch {
                 print("🔴ERROR: \(String(describing: error))")
             }
         }
         
-        return returnal
     }
 }

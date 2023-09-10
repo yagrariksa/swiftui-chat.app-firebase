@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct ListRoomView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
@@ -93,7 +94,13 @@ struct ListRoomView: View {
             
             ToolbarItem(id: "trailing", placement: .navigationBarTrailing) {
                 Button {
-                    self.presentationMode.wrappedValue.dismiss()
+                    do {
+                        try Auth.auth().signOut()
+                        self.presentationMode.wrappedValue.dismiss()
+                    }catch {
+                        print("🔴ERROR: \(String(describing: error))")
+                    }
+
                 } label: {
                     Image(systemName: "power")
                         .resizable()
@@ -108,7 +115,7 @@ struct ListRoomView: View {
     
 }
 
-struct ListUserView_Previews: PreviewProvider {
+struct ListRoomView_Previews: PreviewProvider {
     static var previews: some View {
         ListRoomView()
             .environmentObject(AppData())
