@@ -14,7 +14,6 @@ class ChatDataPresenter: ObservableObject {
     let db = Firestore.firestore()
     
     @Published var chats: [Message] = []
-    @Published var last_bubble_id: String = ""
     
     func fetchChat(_ roomId: String) {
         print("ChatDP🔵START fetchChat(\(roomId))")
@@ -48,7 +47,6 @@ class ChatDataPresenter: ObservableObject {
                     a.timestamp < b.timestamp
                 }
                 
-                self.last_bubble_id = self.chats.last!.id
             }
             
             print("ChatDP🟢Success Fetch \(self.chats.count) Bubble Chat")

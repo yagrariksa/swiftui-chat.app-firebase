@@ -31,27 +31,40 @@ struct ChatView: View {
             ))
     }
     
+    func scroll(_ proxy: ScrollViewProxy) {
+        guard let last = chatDP.chats.last else { return }
+        withAnimation {
+            print("🔶SCROLL!: \(last.id)")
+            proxy.scrollTo(last.id)
+            message = ""
+        }
+    }
+    
     var body: some View {
         VStack {
-            Spacer()
-            ScrollViewReader { proxy in
-                ScrollView {
-                    ForEach(chatDP.chats, id: \.id) { message in
-                        ChatBubble(message: message)
-                    }
-                    .padding()
-                }
-                .background(Color("textfield_bg"))
-                .onChange(of: chatDP.last_bubble_id) { newValue in
-                    guard newValue != "" else { return }
-                    withAnimation {
-                        proxy.scrollTo(newValue)
-                        message = ""
-                    }
-                    
-                }
-            }
             
+            if chatDP.chats.count > 0 {
+                Spacer()
+                ScrollViewReader { proxy in
+                    ScrollView {
+                        ForEach(chatDP.chats, id: \.id) { message in
+                            ChatBubble(message: message)
+                        }
+                        .padding()
+                        .onAppear {
+                            scroll(proxy)
+                        }
+                        .onChange(of: chatDP.chats.count) { _ in
+                            scroll(proxy)
+                        }
+                    }
+                    .background(Color("textfield_bg"))
+                }
+            }else {
+                Spacer()
+                EmptyChat
+                Spacer()
+            }
             
             HStack {
                 CustomTextField(text: $message, placeholder: Text("Pesan"))
@@ -64,6 +77,17 @@ struct ChatView: View {
         }
         .background(.white)
         .onAppear(perform: onAppear)
+    }
+    
+    var EmptyChat: some View {
+        VStack {
+            Image(systemName: "ellipsis.message")
+                .resizable()
+                .frame(width: 100, height: 100)
+            Text("Mulai Percakapan Anda!")
+                .font(.title)
+        }
+        .foregroundColor(.gray)
     }
 }
 

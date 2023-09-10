@@ -19,7 +19,7 @@ struct Room: Identifiable, Codable, Hashable {
     
     var id: String
     var users: [String]
-    var interlocutor: User
+    var partner: User
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)

@@ -67,7 +67,7 @@ struct LoginView: View {
             }
             .padding(.top, 16)
             
-            NavigationLink("", destination: ListUserView(), isActive: $succesLogin)
+            NavigationLink("", destination: ListRoomView(), isActive: $succesLogin)
         }
     }
     

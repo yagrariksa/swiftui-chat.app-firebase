@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		408963762AAC592B00624116 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408963752AAC592B00624116 /* CustomButton.swift */; };
-		408963782AAC5B2500624116 /* ListUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408963772AAC5B2500624116 /* ListUserView.swift */; };
+		408963782AAC5B2500624116 /* ListRoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408963772AAC5B2500624116 /* ListRoomView.swift */; };
 		4089637B2AAC5B3700624116 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4089637A2AAC5B3700624116 /* User.swift */; };
 		4089637D2AAC5F6000624116 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4089637C2AAC5F6000624116 /* ChatView.swift */; };
 		4089637F2AAC5FEB00624116 /* ChatBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4089637E2AAC5FEB00624116 /* ChatBubble.swift */; };
@@ -21,6 +21,8 @@
 		408963912AADA01000624116 /* RoomDataPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408963902AADA01000624116 /* RoomDataPresenter.swift */; };
 		408963932AADA11900624116 /* RoomDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408963922AADA11900624116 /* RoomDTO.swift */; };
 		408963952AADAB4A00624116 /* ChatDataPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408963942AADAB4A00624116 /* ChatDataPresenter.swift */; };
+		408963972AADB8C200624116 /* SelectUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408963962AADB8C200624116 /* SelectUserView.swift */; };
+		4089639D2AADBD8900624116 /* UserDataPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4089639C2AADBD8900624116 /* UserDataPresenter.swift */; };
 		40FD387E2AAC4DEF00694247 /* Chat_App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40FD387D2AAC4DEF00694247 /* Chat_App.swift */; };
 		40FD38802AAC4DEF00694247 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40FD387F2AAC4DEF00694247 /* ContentView.swift */; };
 		40FD38822AAC4DF100694247 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 40FD38812AAC4DF100694247 /* Assets.xcassets */; };
@@ -53,7 +55,7 @@
 
 /* Begin PBXFileReference section */
 		408963752AAC592B00624116 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
-		408963772AAC5B2500624116 /* ListUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListUserView.swift; sourceTree = "<group>"; };
+		408963772AAC5B2500624116 /* ListRoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListRoomView.swift; sourceTree = "<group>"; };
 		4089637A2AAC5B3700624116 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		4089637C2AAC5F6000624116 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		4089637E2AAC5FEB00624116 /* ChatBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBubble.swift; sourceTree = "<group>"; };
@@ -63,6 +65,8 @@
 		408963902AADA01000624116 /* RoomDataPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomDataPresenter.swift; sourceTree = "<group>"; };
 		408963922AADA11900624116 /* RoomDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomDTO.swift; sourceTree = "<group>"; };
 		408963942AADAB4A00624116 /* ChatDataPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDataPresenter.swift; sourceTree = "<group>"; };
+		408963962AADB8C200624116 /* SelectUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectUserView.swift; sourceTree = "<group>"; };
+		4089639C2AADBD8900624116 /* UserDataPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataPresenter.swift; sourceTree = "<group>"; };
 		40FD387A2AAC4DEF00694247 /* Chat App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Chat App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		40FD387D2AAC4DEF00694247 /* Chat_App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat_App.swift; sourceTree = "<group>"; };
 		40FD387F2AAC4DEF00694247 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -123,8 +127,17 @@
 				4089638C2AAD98DD00624116 /* AppData.swift */,
 				408963902AADA01000624116 /* RoomDataPresenter.swift */,
 				408963942AADAB4A00624116 /* ChatDataPresenter.swift */,
+				4089639C2AADBD8900624116 /* UserDataPresenter.swift */,
 			);
 			path = DataPresenter;
+			sourceTree = "<group>";
+		};
+		408963992AADB8CB00624116 /* NewChat */ = {
+			isa = PBXGroup;
+			children = (
+				408963962AADB8C200624116 /* SelectUserView.swift */,
+			);
+			path = NewChat;
 			sourceTree = "<group>";
 		};
 		40FD38712AAC4DEF00694247 = {
@@ -192,9 +205,10 @@
 		40FD38AC2AAC4EF700694247 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				408963992AADB8CB00624116 /* NewChat */,
 				40FD38AD2AAC4F0500694247 /* LoginView.swift */,
 				40FD38AF2AAC4F0D00694247 /* SignupView.swift */,
-				408963772AAC5B2500624116 /* ListUserView.swift */,
+				408963772AAC5B2500624116 /* ListRoomView.swift */,
 				4089637C2AAC5F6000624116 /* ChatView.swift */,
 			);
 			path = View;
@@ -354,15 +368,17 @@
 				40FD38802AAC4DEF00694247 /* ContentView.swift in Sources */,
 				408963912AADA01000624116 /* RoomDataPresenter.swift in Sources */,
 				408963952AADAB4A00624116 /* ChatDataPresenter.swift in Sources */,
+				4089639D2AADBD8900624116 /* UserDataPresenter.swift in Sources */,
 				4089637D2AAC5F6000624116 /* ChatView.swift in Sources */,
 				40FD38B32AAC507B00694247 /* CustomTextField.swift in Sources */,
 				4089637F2AAC5FEB00624116 /* ChatBubble.swift in Sources */,
-				408963782AAC5B2500624116 /* ListUserView.swift in Sources */,
+				408963782AAC5B2500624116 /* ListRoomView.swift in Sources */,
 				40FD38AE2AAC4F0500694247 /* LoginView.swift in Sources */,
 				4089637B2AAC5B3700624116 /* User.swift in Sources */,
 				408963762AAC592B00624116 /* CustomButton.swift in Sources */,
 				408963812AAC6DF100624116 /* Message.swift in Sources */,
 				40FD387E2AAC4DEF00694247 /* Chat_App.swift in Sources */,
+				408963972AADB8C200624116 /* SelectUserView.swift in Sources */,
 				40FD38B02AAC4F0D00694247 /* SignupView.swift in Sources */,
 				408963932AADA11900624116 /* RoomDTO.swift in Sources */,
 			);

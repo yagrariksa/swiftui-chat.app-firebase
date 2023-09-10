@@ -11,11 +11,36 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 
 class RoomDataPresenter: ObservableObject {
+    
     private var roomDTOs: [RoomDTO] = []
     @Published var rooms: [Room] = []
     @Published var dummies: [String] = []
     
     let db = Firestore.firestore()
+    
+    func newChat(_ user_id: String,_ partner: User) -> String? {
+        print("roomDP🔳Finding Room")
+        if let room = rooms.first(where: { room in
+            return room.partner.id == partner.id
+        }) {
+            print("roomDP🟢Room Found: \(String(describing: room))")
+            return room.id
+        }else {
+            print("roomDP🔳Room Not Found, Create New Room")
+            let roomCollection = db.collection("rooms")
+            
+            do {
+                let id = UUID().uuidString
+                try roomCollection.addDocument(from: RoomDTO(id: id, users: [partner.id, user_id]))
+                print("roomDP🟢Success Create Room: \(id)")
+                return id
+            } catch {
+                print("roomDP🔴ERROR create room")
+            }
+        }
+        
+        return nil
+    }
     
     func fetchChat(_ user_id: String) {
         let roomCollection = db.collection("rooms")
@@ -23,7 +48,7 @@ class RoomDataPresenter: ObservableObject {
         
         let query = roomCollection.whereField("users", arrayContains: user_id)
         
-        query.getDocuments { querySnapshot, error in
+        query.addSnapshotListener { querySnapshot, error in
             if error != nil {
                 print("🔴ERROR: \(String(describing: error))")
             }
@@ -56,7 +81,7 @@ class RoomDataPresenter: ObservableObject {
                         // print("RoomDP⚪️firebase: user: \(String(describing: user.data()))")
                         
                         do {
-                            let room = Room(id: roomDTO.id, users: roomDTO.users, interlocutor: try user.data(as: User.self))
+                            let room = Room(id: roomDTO.id, users: roomDTO.users, partner: try user.data(as: User.self))
                             self.rooms.append(room)
                             print("RoomDP🟩\(room)")
                         }catch {
