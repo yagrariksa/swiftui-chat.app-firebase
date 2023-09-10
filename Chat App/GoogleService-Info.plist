@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyDO6PjECFUEQyxWbv_CD8KpCSXJpBqBpHY</string>
+	<key>GCM_SENDER_ID</key>
+	<string>914450510297</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>yagrariksa.altechomega.test.Chat-App</string>
+	<key>PROJECT_ID</key>
+	<string>altechomega-test-chat-app</string>
+	<key>STORAGE_BUCKET</key>
+	<string>altechomega-test-chat-app.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:914450510297:ios:14b0c4ea121bc75954e9c8</string>
+</dict>
+</plist>
