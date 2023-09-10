@@ -15,8 +15,8 @@ struct LoginView: View {
     
     @EnvironmentObject var appData: AppData
     
-    @State private var email: String = "daffa.yagrariksa@gmail.com"
-    @State private var password: String = "yagrariksa"
+    @State private var email: String = ""
+    @State private var password: String = ""
     
     @State private var succesLogin: Bool = false
     @State private var showAlert: Bool = false

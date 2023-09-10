@@ -7,14 +7,16 @@
 
 import SwiftUI
 import FirebaseAuth
+import FirebaseFirestore
+import FirebaseFirestoreSwift
 
 struct SignupView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
-//    @State private var name: String = ""
-    @State private var email: String = "afina.indonesia@gmail.com"
-    @State private var password: String = "afina"
-    @State private var passwordConfirm: String = "afina123"
+    @State private var name: String = ""
+    @State private var email: String = ""
+    @State private var password: String = ""
+    @State private var passwordConfirm: String = ""
     
     @State private var showAlert: Bool = false
     @State private var alertTitle: String = ""
@@ -46,7 +48,7 @@ struct SignupView: View {
     
     var Fields: some View {
         VStack {
-//            CustomTextField(text: $name, placeholder: Text("Nama"))
+            CustomTextField(text: $name, placeholder: Text("Nama"))
             
             CustomTextField(text: $email, placeholder: Text("Email"))
             
@@ -61,12 +63,10 @@ struct SignupView: View {
             CustomButton(text: "Daftar") {
                 print("🔵Daftar")
                 signup()
-                
             }
             .buttonStyle(.borderedProminent)
             
             Button {
-                print("Masuk")
                 presentationMode.wrappedValue.dismiss()
             }label: {
                 HStack {
@@ -90,24 +90,57 @@ struct SignupView: View {
             return
         }
         
-        Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
-            if error != nil {
-                print("🔴Error Firabse-Auth: \(String(describing: error))")
-                
+        
+        let db = Firestore.firestore()
+        
+        let userCollection = db.collection("users")
+        
+        let query = userCollection.whereField("email", isEqualTo: email)
+        
+        query.getDocuments { snapshot, _ in
+            print("🔵snapshot: \(String(describing: snapshot))")
+            print("🔵document: \(String(describing: snapshot?.documents))")
+            guard let documents = snapshot?.documents else {return}
+            if !documents.isEmpty {
+                print("🔴Error Firabse-Firestore: Account is exist")
+                print("🔴Error Firabse-Firestore: \(String(describing: documents))")
                 alertTitle = "Gagal Mendaftar"
-                alertMsg = "Akun Telah Dibuat"
-                
-            }else{
-                print("🟢Success: \(String(describing: result))")
-                
-                alertTitle = "Berhasil Mendaftar"
-                alertMsg = "Mohon Masuk Menggunakan Data Akun yang Barusaja Anda Buat"
-                
-                presentationMode.wrappedValue.dismiss()
+                alertMsg = "Akun Telah Terdaftar"
+                showAlert.toggle()
+                return
             }
-            showAlert.toggle()
-        }
+            
+            do {
+                print("🔵Create Data")
+                try userCollection.addDocument(from: User(id: UUID().uuidString, name: name, email: email))
+                print("🔵Finish Create Data")
                 
+                print("🔵Create Account Auth")
+                Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
+                    if error != nil {
+                        print("🔴Error Firabse-Auth: \(String(describing: error))")
+                        
+                        alertTitle = "Gagal Mendaftar"
+                        alertMsg = "Akun Telah Dibuat"
+                        
+                    }else{
+                        print("🟢Success: \(String(describing: result))")
+                        
+                        alertTitle = "Berhasil Mendaftar"
+                        alertMsg = "Mohon Masuk Menggunakan Data Akun yang Barusaja Anda Buat"
+                        
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                    showAlert.toggle()
+                }
+            } catch {
+                alertTitle = "Gagal Mendaftar"
+                alertMsg = "Kesalahan Layanan"
+                showAlert.toggle()
+                print("🔴ERROR: firestore create user-data: \(String(describing: error))")
+                return
+            }
+        }
     }
 }
 
