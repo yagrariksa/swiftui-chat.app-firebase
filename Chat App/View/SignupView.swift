@@ -7,6 +7,7 @@
 
 import SwiftUI
 import FirebaseAuth
+import FirebaseCore
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
@@ -110,9 +111,24 @@ struct SignupView: View {
                 return
             }
             
-            do {
-                print("🔵Create Data")
-                try userCollection.addDocument(from: User(id: UUID().uuidString, name: name, email: email))
+            
+            print("🔵Create Data")
+            let id = UUID().uuidString
+            userCollection.document(id).setData([
+                "id": id,
+                "name": name,
+                "email": email
+            ], merge: true) { err in
+                if let err = err {
+                    print("🔴Error SET DATA: \(err)")
+                    alertTitle = "Gagal Mendaftar"
+                    alertMsg = "Kesalahan Layanan"
+                    showAlert.toggle()
+                    return
+                } else {
+                    print("🟢Success SET DATA!")
+                }
+                
                 print("🔵Finish Create Data")
                 
                 print("🔵Create Account Auth")
@@ -133,12 +149,6 @@ struct SignupView: View {
                     }
                     showAlert.toggle()
                 }
-            } catch {
-                alertTitle = "Gagal Mendaftar"
-                alertMsg = "Kesalahan Layanan"
-                showAlert.toggle()
-                print("🔴ERROR: firestore create user-data: \(String(describing: error))")
-                return
             }
         }
     }

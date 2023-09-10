@@ -39,11 +39,7 @@ struct ListRoomView: View {
             return
         }
         
-        if let roomId = roomDP.newChat(appData.user.id, candidate) {
-            roomId_forNewChat = roomId
-            showNewChatSheet.toggle()
-            startNewChat.toggle()
-        }
+        roomDP.newChat(appData.user.id, candidate)
     }
     
     var body: some View {
@@ -59,10 +55,16 @@ struct ListRoomView: View {
                 .padding()
             }
             
-            NavigationLink("newChat", destination: ChatView(room_id: roomId_forNewChat).navigationTitle(newChatCandidate?.name ?? ""), isActive: $startNewChat)
+            NavigationLink("", destination: ChatView(room_id: roomId_forNewChat).navigationTitle(newChatCandidate?.name ?? ""), isActive: $startNewChat)
         }
         .navigationBarBackButtonHidden()
         .onAppear(perform: onAppear)
+        .onChange(of: roomDP.selected_room_id, perform: { newValue in
+            guard let selected = newValue else { return }
+            roomId_forNewChat = selected
+            showNewChatSheet.toggle()
+            startNewChat.toggle()
+        })
         .onChange(of: appData.user.id) { _ in
             onAppear()
         }

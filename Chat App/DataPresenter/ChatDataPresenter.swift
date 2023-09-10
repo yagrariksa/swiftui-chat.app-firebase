@@ -56,10 +56,15 @@ class ChatDataPresenter: ObservableObject {
     func sendMessage(_ roomId: String, _ message: Message) {
         let messagesCollection = db.collection("rooms/\(roomId)/messages")
         
-        do {
-            try messagesCollection.addDocument(from: message)
-        }catch {
-            print("ChatDP🔴sendMessage: \(String(describing: error))")
+        messagesCollection.document(message.id).setData([
+            "id": message.id,
+            "sender": message.sender,
+            "text": message.text,
+            "timestamp": message.timestamp
+        ], merge: true) { err in
+            if err != nil {
+                print("ChatDP🔴sendMessage: \(String(describing: err))")
+            }
         }
     }
 }

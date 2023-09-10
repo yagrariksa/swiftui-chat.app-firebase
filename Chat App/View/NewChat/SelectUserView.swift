@@ -27,7 +27,12 @@ struct SelectUserView: View {
                     setChatCandidate(user)
                 } label: {
                     HStack {
-                        Text(user.name)
+                        VStack(alignment: .leading) {
+                            Text(user.name)
+                            Text(user.email)
+                                .font(.caption)
+                                .foregroundColor(.gray)
+                        }
                         Spacer()
                         if newChatCandidate?.id == user.id {
                             Image(systemName: "checkmark")

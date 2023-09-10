@@ -29,7 +29,7 @@ struct LoginView: View {
             Text("Masuk")
                 .font(.title)
             Spacer()
-            CustomTextField(text: $email, placeholder: Text("Username"))
+            CustomTextField(text: $email, placeholder: Text("Email"))
             
             CustomTextField(text: $password, placeholder: Text("Kata Sandi"), secureField: true)
             Spacer()
