@@ -56,6 +56,7 @@ struct SignupView: View {
             
             CustomTextField(text: $email, placeholder: Text("Email"))
                 .disabled(appData.loading)
+                .textInputAutocapitalization(.never)
             
             CustomTextField(text: $password, placeholder: Text("Kata Sandi"), secureField: true)
                 .disabled(appData.loading)

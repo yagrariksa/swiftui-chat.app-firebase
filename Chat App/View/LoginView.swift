@@ -31,6 +31,7 @@ struct LoginView: View {
             Spacer()
             CustomTextField(text: $email, placeholder: Text("Email"))
                 .disabled(appData.loading)
+                .textInputAutocapitalization(.never)
             
             CustomTextField(text: $password, placeholder: Text("Kata Sandi"), secureField: true)
                 .disabled(appData.loading)
@@ -80,6 +81,7 @@ struct LoginView: View {
     
     func login() {
         guard email != "" || password != "" else {
+            print("🔴ERROR")
             return
         }
         appData.toggleLoading()
