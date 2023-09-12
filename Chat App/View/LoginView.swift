@@ -30,11 +30,17 @@ struct LoginView: View {
                 .font(.title)
             Spacer()
             CustomTextField(text: $email, placeholder: Text("Email"))
+                .disabled(appData.loading)
+                .textInputAutocapitalization(.never)
             
             CustomTextField(text: $password, placeholder: Text("Kata Sandi"), secureField: true)
+                .disabled(appData.loading)
             Spacer()
             
             Buttons
+        }
+        .onAppear {
+            password = ""
         }
         .padding()
         .alert(isPresented: $showAlert) {
@@ -55,6 +61,7 @@ struct LoginView: View {
         VStack {
             CustomButton(text: "Masuk", action: login)
                 .buttonStyle(.borderedProminent)
+                .disabled(appData.loading)
             
             NavigationLink(destination: SignupView()) {
                 HStack {
@@ -65,6 +72,7 @@ struct LoginView: View {
                 }
                 
             }
+            .disabled(appData.loading)
             .padding(.top, 16)
             
             NavigationLink("", destination: ListRoomView(), isActive: $succesLogin)
@@ -73,15 +81,20 @@ struct LoginView: View {
     
     func login() {
         guard email != "" || password != "" else {
+            print("🔴ERROR")
             return
         }
+        appData.toggleLoading()
         Auth.auth().signIn(withEmail: email, password: password) { (result,error) in
+            password = ""
             if error != nil {
                 print("🔴Error FirebaseAuth : \(String(describing: error))")
                 showAlert.toggle()
+                appData.toggleLoading()
             }else {
                 print("🟢SUCCESS LOGIN:")
                 appData.getUserData(email)
+                appData.toggleLoading()
             }
         }
         

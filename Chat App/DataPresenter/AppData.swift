@@ -21,6 +21,11 @@ class AppData: ObservableObject {
     }
     
     @Published var user: User = User(id: "", name: "", email: "")
+    @Published var loading: Bool = false
+    
+    func toggleLoading() {
+        loading.toggle()
+    }
     
     func getUserData(_ email: String) {
         

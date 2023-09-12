@@ -45,14 +45,24 @@ struct ListRoomView: View {
     var body: some View {
         VStack {
             Spacer()
-            
-            
-            ScrollView {
-                ForEach(roomDP.rooms, id: \.self) { room in
-                    UserItem(room_id: room.id,user: room.partner)
-                    
+            if roomDP.rooms.count > 0 {
+                
+                ScrollView {
+                    ForEach(roomDP.rooms, id: \.self) { room in
+                        UserItem(room_id: room.id,user: room.partner)
+                        
+                    }
+                    .padding()
                 }
-                .padding()
+            }else {
+                Button {
+                    showNewChatSheet.toggle()
+                } label: {
+                    Text("Start New Chat")
+                        .font(.title)
+                        .foregroundColor(Color(uiColor: .gray))
+                }
+                Spacer()
             }
             
             NavigationLink("", destination: ChatView(room_id: roomId_forNewChat).navigationTitle(newChatCandidate?.name ?? ""), isActive: $startNewChat)

@@ -14,6 +14,8 @@ import FirebaseFirestoreSwift
 struct SignupView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
+    @EnvironmentObject var appData: AppData
+    
     @State private var name: String = ""
     @State private var email: String = ""
     @State private var password: String = ""
@@ -50,12 +52,17 @@ struct SignupView: View {
     var Fields: some View {
         VStack {
             CustomTextField(text: $name, placeholder: Text("Nama"))
+                .disabled(appData.loading)
             
             CustomTextField(text: $email, placeholder: Text("Email"))
+                .disabled(appData.loading)
+                .textInputAutocapitalization(.never)
             
             CustomTextField(text: $password, placeholder: Text("Kata Sandi"), secureField: true)
+                .disabled(appData.loading)
             
             CustomTextField(text: $passwordConfirm, placeholder: Text("Kata Sandi (Konfirmasi)"), secureField: true)
+                .disabled(appData.loading)
         }
     }
     
@@ -66,6 +73,7 @@ struct SignupView: View {
                 signup()
             }
             .buttonStyle(.borderedProminent)
+            .disabled(appData.loading)
             
             Button {
                 presentationMode.wrappedValue.dismiss()
@@ -77,6 +85,7 @@ struct SignupView: View {
                         .foregroundColor(.blue)
                 }
             }
+            .disabled(appData.loading)
             .padding(.top, 16)
         }
     }
@@ -91,7 +100,7 @@ struct SignupView: View {
             return
         }
         
-        
+        appData.toggleLoading()
         let db = Firestore.firestore()
         
         let userCollection = db.collection("users")
@@ -108,6 +117,7 @@ struct SignupView: View {
                 alertTitle = "Gagal Mendaftar"
                 alertMsg = "Akun Telah Terdaftar"
                 showAlert.toggle()
+                appData.toggleLoading()
                 return
             }
             
@@ -124,6 +134,7 @@ struct SignupView: View {
                     alertTitle = "Gagal Mendaftar"
                     alertMsg = "Kesalahan Layanan"
                     showAlert.toggle()
+                    appData.toggleLoading()
                     return
                 } else {
                     print("🟢Success SET DATA!")
@@ -148,6 +159,7 @@ struct SignupView: View {
                         presentationMode.wrappedValue.dismiss()
                     }
                     showAlert.toggle()
+                    appData.toggleLoading()
                 }
             }
         }

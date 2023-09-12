@@ -21,6 +21,7 @@ struct ChatView: View {
     
     func sendMessage() {
         guard message != "" else { return }
+        appData.toggleLoading()
         chatDP.sendMessage(
             room_id,
             Message(
@@ -29,6 +30,7 @@ struct ChatView: View {
                 text: message,
                 timestamp: Date()
             ))
+        appData.toggleLoading()
     }
     
     func scroll(_ proxy: ScrollViewProxy) {
@@ -68,9 +70,11 @@ struct ChatView: View {
             
             HStack {
                 CustomTextField(text: $message, placeholder: Text("Pesan"))
+                    .disabled(appData.loading)
                 Button(action: sendMessage) {
                     Image(systemName: "paperplane")
                 }
+                .disabled(appData.loading)
                 .padding(.horizontal, 8)
             }
             .padding()
